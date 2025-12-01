@@ -1,0 +1,75 @@
+{% extends 'learning_logs/base.html' %}
+
+{% block page_header %}
+  <h1 class="text-center">Learning Log Analytics Dashboard</h1>
+{% endblock page_header %}
+
+{% block content %}
+<div class="container mt-4">
+
+  <!-- Summary Cards -->
+  <div class="row text-center mb-5">
+      <div class="col-md-4 mb-3">
+          <div class="card p-4 shadow">
+              <h5>Average Hours</h5>
+              <p class="fs-3">{{ avg_hours|floatformat:2 }}</p>
+          </div>
+      </div>
+      <div class="col-md-4 mb-3">
+          <div class="card p-4 shadow">
+              <h5>Average Exam Score</h5>
+              <p class="fs-3">{{ avg_exam|floatformat:2 }}</p>
+          </div>
+      </div>
+      <div class="col-md-4 mb-3">
+          <div class="card p-4 shadow">
+              <h5>Total Entries</h5>
+              <p class="fs-3">{{ total_entries }}</p>
+          </div>
+      </div>
+  </div>
+
+  <!-- Entries per Topic -->
+  <div class="row mb-4">
+      <div class="col-12">
+          <div class="card p-3 shadow">
+              <h5>Entries per Topic</h5>
+              <ul class="list-group list-group-flush">
+                {% for t in type_counts %}
+                  <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{ t.text }}
+                    <span class="badge bg-primary rounded-pill">{{ t.total }}</span>
+                  </li>
+                {% endfor %}
+              </ul>
+          </div>
+      </div>
+  </div>
+
+
+  <!-- Charts -->
+<div class="row">
+
+    <!-- Hours Studied vs Exam Score -->
+    {% if hours_exam_chart %}
+    <div class="col-md-6 mb-4">
+        <div class="card p-3 shadow">
+            <h6 class="text-center">Hours Studied vs Exam Score</h6>
+            <img src="data:image/png;base64,{{ hours_exam_chart }}" class="img-fluid"/>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- School Type Comparison -->
+    {% if school_type_chart %}
+    <div class="col-md-6 mb-4">
+        <div class="card p-3 shadow">
+            <h6 class="text-center">Public vs Private School Exam Scores</h6>
+            <img src="data:image/png;base64,{{ school_type_chart }}" class="img-fluid"/>
+        </div>
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock content %}
